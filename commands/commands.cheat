@@ -1,0 +1,184 @@
+% commands
+
+# update terminal
+xrdb ~/.Xresources
+
+# refresh keys
+pacman-key --refresh-keys
+
+# change shell (replace zsh with shell name for other shell)
+chsh -s $(which zsh)
+
+# check current brightness
+cat /sys/class/backlight/intel_backlight/brightness
+
+# check max brightness
+cat /sys/class/backlight/intel_backlight/max_brightness
+
+# rename every file in a folder to bnr00, bnr01, bnr02, etc.
+num=0; for i in *; do mv "$i" "$(printf 'bnr%02d' $num).${i#*.}"; ((num++)); done
+
+# set keyboard input mode to scancode
+sudo kbd_mode -s
+
+# update aur packages
+yaourt -Syua
+
+# (rar) extract to folder ('e' instead of 'x' to dump all files)
+unrar x filename
+
+# start a local webserver on port 9000 with the contents of the ".startpage" folder
+http-server ./.startpage -p 9000
+
+# connect to ist sigma
+ssh sigma.ist.utl.pt -l ist187665
+
+# copy all files in folder to destination ('*' for normal files, '.' for hidden files also)
+scp -r ~/Development/git/IPM-IST/Homepage/. ist187665@sigma.ist.utl.pt:~/web
+
+# copy only modified files (-a for recursive folders and -v for verbose)
+rsync -av -e "ssh -i ~/.aws/CNV-2020-project.pem" ~/.bashrc ec2-user@ec2-3-218-143-162.compute-1.amazonaws.com:~/
+
+# list open ports ('l' for listening, 'a' for all)
+ss -tunl
+
+# check for date of all previous pacman updates
+egrep 'pacman -Syu' /var/log/pacman.log
+
+# check for date of last pacman update
+awk 'END{sub(/\[/,""); print $1}' /var/log/pacman.log
+
+# zip to output directory
+zip -r squash.zip dir1
+
+# start a service
+systemctl start unit
+
+# enable a service at bootup and also start immediatly
+systemctl enable --now unit
+
+# start a ssh agent which stores rsa key passwords
+eval $(keychain --quiet --agents ssh --eval id_rsa)
+
+# check for errors and warnings in the script (can use bash instead of ksh)
+ksh -n myscript.sh
+
+# Disk usage analyzer with an ncurses interface
+sudo ncdu [directory]
+
+# output appended data as the file grows
+tail -f file.txt
+
+# print current terminal emulator
+ps -p $(ps -p $$ -o args,ppid | tail -1 | awk '{print $2}') -o args | tail -1
+
+# utility to list / change java environments, among other things
+archlinux-java
+
+# look at filesizes in current directory
+du -h -d1 .
+
+# select the 20 most recently synchronized HTTP or HTTPS mirrors, sort them by download speed, and overwrite the file /etc/pacman.d/mirrorlist
+sudo reflector --latest 20 --verbose --protocol http --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+
+# list font familys
+convert -list font | awk -F: '/family: / { print $2 }' | sort -du
+
+# list all font files
+fc-list | sed -n -e 's/.*: \(.*\):.*/\1/p' | sort --unique
+
+# run a program with a program with a certain cpu priority (-19=highest, 19=lowest)
+nice -n 19 <command>
+
+# install micro text editor
+cd /usr/local/bin; curl https://getmic.ro | sudo bash
+
+# atom export packages
+apm list --installed --bare > atom-package-list.txt
+
+# atom import packages
+apm install --packages-file atom-package-list.txt
+
+# reload dunstrc
+killall dunst;notify-send summary body
+
+# start dlna media server
+minidlnad -f /home/$USER/.config/minidlna/minidlna.conf -P /home/$USER/.config/minidlna/minidlna.pid
+
+# shutdown dlna media server
+pkill minidlnad
+
+# turn screen off
+xset dpms force off
+
+# multiplex subtitle file with video file (append as last track)
+mkvmerge -o ouput.mkv video.mkv --language "0:eng" --track-name "0:English Track" sub.srt
+
+# compile all java files in subdirectory of src folder
+javac src/**/*.java
+
+# java commands must have a classpath or the directory of the files
+java -cp ./src package.name.Class file.txt
+
+# this version only works inside the src folder
+java package.name.Class ../inputs/file.txt
+
+# count number of characters in a pdf
+pdftotext document.pdf -enc UTF-8 - | wc -m
+
+# start a nested Xorg server for testing purposes
+Xephyr -br -ac -noreset -screen 800x600 :1
+
+# run an application in the nested Xorg server
+DISPLAY=:1 dwm
+
+# Check for remaining cache versions of uninstalled packages
+paccache -dvuk0
+
+# remove pacman cache for uninstalled packages
+paccache -rvu
+
+# edit PKGBUILD files when installing packages from AUR with yay
+yay --editmenu <search-term>
+
+# temporarily resize tmpfs without the need to reboot (to install large packages)
+sudo mount -o remount,size=6G,noatime /tmp
+
+# list fonts available for kitty terminal
+kitty list-fonts
+
+# how to look at fonts and unicode
+font-manager
+
+# how to show icon for unicode and find font conflicts (-t for ascii preview, -p to open in browser)
+forfont -t U+E926
+
+# setup nodejs (npm) as a non root user
+npm config set prefix '~/.npm-global'
+
+# configure touchpad sensitivity (get id with 'xinput list'; range=[-1,1])
+xinput --set-prop <device id> 'libinput Accel Speed' <acceleration factor>
+
+# copy into X clipboard
+echo "test" | xclip -selection clipboard
+
+# paste from X clipboard
+xclip -selection clipboard -o
+
+# Remove unused docker images, containers and networks (add --volumes to also prune volumes)
+docker system prune
+
+# extract zip to directory
+unzip archive.zip -d /tmp/unziped
+
+# extract 7z to directory
+7z x archive.7z -o/path/to/dir
+
+# create tar.xz
+tar -cvJf archive.tar.xz files
+
+# add public ssh key to remote server
+ssh-copy-id -i ~/.ssh/id_ed25519.pub username@remote-server.org
+
+# replace one char (:) with another (_) in all filenames of a directory
+find . -depth -name '* *' -execdir bash -c 'mv -- "$1" "${1//:/_}"' bash {} \;

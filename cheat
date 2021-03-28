@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# helper functions
+history_file3="$HOME/.cache/rofi-howdoi.runcache"
+history_file4="$HOME/.cache/rofi-tldr.runcache"
+
+history_append () {
+    # arg 1 is history file
+    # arg 2 is query
+    max_lines=25
+    tmp_file="/tmp/rofi-cheat.runcache"
+
+
+    # with duplicates
+    # head "-$((max_lines - 1))" "$1" > "$tmp_file" &&
+    # { printf '%s\n' "$2" && cat "$tmp_file"; } > "$1"
+
+    # without duplicates
+    { printf '%s\n' "$2" && head "-$((max_lines - 1))" "$1"; } > "$tmp_file"
+    awk '!v[$0]++' "$tmp_file" > "$1"
+}
+
+
+# options to be displayed
+option0="1 search common actions and unix commands"
+option1="2 search help pages"
+option2="3 search images"
+option3="4 get instant coding answers from the command line"
+option4="5 get practical examples for unix commands"
+
+
+# options to be displayed
+options="$option0\n$option1\n$option2\n$option3\n$option4"
+
+selected="$(echo -e "$options" | rofi -dmenu -p "Cheatsheet")"
+case $selected in
+    $option0)
+        navi --fzf-overrides '--tiebreak=index' --print --path "$CHEATSHEETS_PATH" | tr -d '\n' | xclip -selection clipboard
+        ;;
+    $option1)
+        cd "$CHEATSHEETS_PATH/help-pages"
+        file="$(fd --type f | fzf --tiebreak=index --preview 'bat --style=numbers --color=always --line-range :300 {}' --preview-window right:65%)" && bat --style=header,grid "$file"
+        ;;
+    $option2)
+        cd "$CHEATSHEETS_PATH/images"
+        file="$(fd --type f | fzf --tiebreak=index)" && xdg-open "$file" >/dev/null 2>/dev/null &
+        ;;
+    $option3)
+        if [ ! -f "$history_file3" ]; then
+            touch "$history_file3"
+        fi
+        query="$(cat "$history_file3" | rofi -dmenu -p "Query")" && howdoi "$query" && history_append "$history_file3" "$query"
+        ;;
+    $option4)
+        # can choose between tldr and cheat.sh
+        if [ ! -f "$history_file4" ]; then
+            touch "$history_file4"
+        fi
+        query="$(cat "$history_file4" | rofi -dmenu -p "Query")" && tldr "$query" && history_append "$history_file4" "$query"
+        ;;
+esac

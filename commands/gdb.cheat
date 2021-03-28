@@ -1,0 +1,43 @@
+% gdb
+
+# create breakpoint
+b line_number
+
+# create breakpoint
+b file.c:line_number
+
+# create breakpoint
+b function_name
+
+# start running program
+r
+
+# start running program with an input file
+r < input.txt
+
+# backtrace - go to the instruction that caused an error
+bt
+
+# list - show code near current line
+l
+
+# print value of variable
+p variable
+
+# list all breakpoints
+info b
+
+# disable a breakpoint
+disable breakpoint_num
+
+# execute next line
+s
+
+# execute next line (without going into functions)
+n
+
+# continue until next breakpoint
+c
+
+# quit
+q

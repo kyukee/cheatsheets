@@ -1,0 +1,52 @@
+% docker
+
+# list only running containers
+docker ps
+
+# list all containers
+docker ps -a
+
+# remove container from history
+docker rm <container>
+
+# list all docker images
+docker images
+
+# remove image
+docker rmi <image>
+
+# build an image from a dockerfile ('.' for current directory)
+docker build <dockerfile_path>
+
+# build image and give it a name (standard format: <dockerhub_user>/<image_name>:<tag>)
+docker build <dockerfile_path> -t <tag>
+
+# push an image to docker hub (ideal format: <dockerhub_user>/<name>:<tag>)
+docker push <tag>
+
+# start a container
+docker run <image>
+
+# essentialy ssh into an already running container
+docker attach <container>
+
+# exit out of a container's shell
+exit
+
+# exit out of a container's shell, while keeping the process running
+ctrl+p , ctrl+q
+
+# start a not running container
+docker start <container>
+
+# stop a running container
+docker stop <container>
+
+# use kill instead of stop if the container is unresponsive
+docker kill <container>
+
+# start a new process in an already running container
+docker exec <container> <process>
+
+# display image or container information
+docker inspect <item>

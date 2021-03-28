@@ -39,7 +39,7 @@ case $selected in
         ;;
     $option1)
         cd "$CHEATSHEETS_PATH/help-pages"
-        file="$(fd --type f | fzf --tiebreak=index --preview 'bat --style=numbers --color=always --line-range :300 {}' --preview-window right:65%)" && bat --style=header,grid "$file"
+        file="$(fd --type f | fzf --tiebreak=index --preview 'bat --style=numbers --color=always --line-range :300 {}' --preview-window right:65%)" && bat --paging=always --style=header,grid "$file"
         ;;
     $option2)
         cd "$CHEATSHEETS_PATH/images"

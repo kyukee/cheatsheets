@@ -7,7 +7,7 @@ F2
 ctrl+F6
 
 # move between windows
-F3 / F4    |   alt+j / alt+k
+alt+j / alt+k   |   alt+left / alt+right
 
 # rename window
 F8

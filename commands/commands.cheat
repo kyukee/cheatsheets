@@ -3,7 +3,7 @@
 # update terminal
 xrdb ~/.Xresources
 
-# refresh keys
+# refresh pacman pgp keys
 pacman-key --refresh-keys
 
 # change shell (replace zsh with shell name for other shell)
@@ -37,6 +37,9 @@ ssh sigma.ist.utl.pt -l ist187665
 scp -r ~/Development/git/IPM-IST/Homepage/. ist187665@sigma.ist.utl.pt:~/web
 
 # copy only modified files (-a for recursive folders and -v for verbose)
+rsync -av ~/Downloads/custom-icons root@nas:/srv/dev-disk-by-uuid-67f059ba-aa60-43ea-b852-7bf2e9bee931/AppData/config/homer
+
+# rsync with a custom rsa key
 rsync -av -e "ssh -i ~/.aws/CNV-2020-project.pem" ~/.bashrc ec2-user@ec2-3-218-143-162.compute-1.amazonaws.com:~/
 
 # list open ports ('l' for listening, 'a' for all)
@@ -151,7 +154,7 @@ kitty list-fonts
 font-manager
 
 # how to show icon for unicode and find font conflicts (-t for ascii preview, -p to open in browser)
-forfont -t U+E926
+fontfor -t U+E926
 
 # setup nodejs (npm) as a non root user
 npm config set prefix '~/.npm-global'
@@ -182,3 +185,84 @@ ssh-copy-id -i ~/.ssh/id_ed25519.pub username@remote-server.org
 
 # replace one char (:) with another (_) in all filenames of a directory
 find . -depth -name '* *' -execdir bash -c 'mv -- "$1" "${1//:/_}"' bash {} \;
+
+# xinput - see current status and various options active for the device
+xinput --list-props <id>
+
+# setup external monitor / dual monitor
+arandr for customization and autorandr for saving profiles and automatic layout switching
+
+# how to ignore a package from being updated
+edit '/etc/pacman.conf' and add package to 'IgnorePkg'
+
+# check global keyboard layout / language
+localectl status
+
+# DOS attack an IP
+hping -c 10000 --flood <IP of device>
+
+# clear pacman package cache
+pacman -Sc
+
+# loog at journal from previous boot
+journalctl -r -b 1
+
+# reload fstab
+mount -a
+
+# mount Windows smb share
+sudo mount.cifs //DESKTOP/Anime /media/Desktop\ -\ Anime -o username="Iulian P",password=""
+
+# mount Network media tank
+gio mount smb://192.168.1.80/C
+
+# list all setkbdmap layouts, variants and options
+man xkeyboard-config
+
+# search gpg key
+gpg --keyserver keyserver.ubuntu.com --search-keys F8B7FD00E05C932991A2CD6150EE103D162C5A55
+
+# import gpg key
+gpg --keyserver keys.openpgp.org --recv-key B7842CDAF36E6A3214FAE35D5E85B9AE0B84C041
+
+# replace application icon for system tray
+mv app.png /usr/share/pixmaps/app.png
+
+# bulk rename
+sudo find -name "*blueberr*" -exec perl-rename 's/blueberry-/blueman-/' {} ";"
+
+# change file eplorer folder icon colour for Papirus theme
+papirus-folders --theme Papirus-Dark -C brown
+
+# create tmux project in current directory
+tmuxinator new --local project-name
+
+# open tmux project in current directory
+tmuxinator local
+
+# open a file or URL in the user's preferred application (according to MIME type)
+xdg-open file.txt
+
+# query MIME type of file
+xdg-mime query filetype file.txt
+
+# query application used to open MIME type
+xdg-mime query default image/png
+
+# view the dependency tree of a pacman package
+pactree <package>
+
+# view the dependant tree of a pacman package
+pactree -r <package>
+
+# pacman list packages with no dependants (orphans)
+pacman -Qdt
+
+# set wallpaper as background
+feh --bg-fill /home/kyukee/Pictures/wallpapers/wallpaper_symlink
+
+# find files in path1 which have duplicates in path2. It will create a shell script which, if run, will remove the duplicates under path1, leaving only the unique files.
+rmlint --types=duplicates --must-match-tagged --keep-all-tagged <path1> // <path2>
+
+# find duplicate files and manually select which to keep
+fdupes -rd <path1> <path2>

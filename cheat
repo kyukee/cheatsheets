@@ -24,8 +24,8 @@ history_append () {
 option0="1 search saved command"
 option1="2 search text cheatsheet"
 option2="3 search image cheatsheet"
-option3="5 get practical examples for a unix command"
-# option4="4 get instant coding answers from the command line"
+option3="4 get practical examples for a unix command"
+# option4="5 get instant coding answers from the command line"
 
 
 # options to be displayed

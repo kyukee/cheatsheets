@@ -4,7 +4,7 @@
 xrdb ~/.Xresources
 
 # refresh pacman pgp keys
-pacman-key --refresh-keys
+gpg --refresh-keys && pacman-key --refresh-keys --keyserver keyserver.ubuntu.com
 
 # change shell (replace zsh with shell name for other shell)
 chsh -s $(which zsh)
@@ -130,10 +130,10 @@ java package.name.Class ../inputs/file.txt
 pdftotext document.pdf -enc UTF-8 - | wc -m
 
 # start a nested Xorg server for testing purposes
-Xephyr -br -ac -noreset -screen 800x600 :1
+Xephyr -br -ac -noreset -screen 800x600 :2
 
 # run an application in the nested Xorg server
-DISPLAY=:1 dwm
+DISPLAY=:2 dwm
 
 # Check for remaining cache versions of uninstalled packages
 paccache -dvuk0
@@ -266,3 +266,18 @@ rmlint --types=duplicates --must-match-tagged --keep-all-tagged <path1> // <path
 
 # find duplicate files and manually select which to keep
 fdupes -rd <path1> <path2>
+
+# rsync copy only new files, even if its the first sync
+rsync -avh --ignore-existing -P dir1 dir2
+
+# export sql database
+mysqldump -u [user name] –p [password] [options] [database_name] [tablename] > dumpfilename.sql
+
+# ftp server - list files
+duck --list ftps://i_puscasu@cavcma.pt@cavcma.pt/public_html/production
+
+# ftp server - upload files to server
+duck --upload ftps://i_puscasu@cavcma.pt@cavcma.pt/public_html/staging ~/Development/CAVCMA/bagisto
+
+# Scan for card reader
+pcsc_scan
